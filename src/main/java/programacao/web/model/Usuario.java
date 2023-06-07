@@ -13,8 +13,17 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private long id;
+    private String nome;
     private String login;
     private String senha;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public long getId() {
         return id;
