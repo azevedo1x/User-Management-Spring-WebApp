@@ -2,20 +2,17 @@ package programacao.web.model;
 
 import java.io.Serializable;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-
-    private long id;
-    private String nome;
     private String login;
     private String senha;
+    private String nome;
+    private String email;
 
     public String getNome() {
         return nome;
@@ -25,12 +22,12 @@ public class Usuario implements Serializable {
         this.nome = nome;
     }
 
-    public long getId() {
-        return id;
+    public String getEmail() {
+        return email;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getLogin() {
