@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     private String login;
     private String senha;
@@ -44,6 +44,9 @@ public class Usuario implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Usuario() {
     }
 
 }
