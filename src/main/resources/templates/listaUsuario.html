@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+</html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h3> lista de usuários </h3>
+
+    <p> Login&ebmsp;&ebmsp;Senha </p>
+    <hr>
+    <div th:each="usuario:$usuarios">
+
+        <div class="row">
+
+            <p>
+
+                <span th:text="${usuario.id}"> </span>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

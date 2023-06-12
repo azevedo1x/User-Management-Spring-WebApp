@@ -29,7 +29,7 @@ public class UsuarioController {
     public String form(Usuario usuario) {
 
         ur.save(usuario);
-        return "redirect:/formUsuario";
+        return "redirect:/cadastrarUsuario";
 
     }
 }
