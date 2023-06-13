@@ -20,13 +20,13 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "/cadastrarUsuario", method = RequestMethod.GET)
-    public String form(Model model) {
+    public String exibirForm(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "formUsuario";
     }
 
     @RequestMapping(value = "/cadastrarUsuario", method = RequestMethod.POST)
-    public String form(Usuario usuario) {
+    public String processarForm(Usuario usuario) {
 
         ur.save(usuario);
         return "redirect:/cadastrarUsuario";
