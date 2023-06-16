@@ -34,9 +34,10 @@ public class UsuarioController {
 
     }
 
-    public ModelAndView listaUsuario() {
+    @RequestMapping("/listarUsuario")
+    public ModelAndView listarUsuario() {
 
-        ModelAndView mv = new ModelAndView("listaUsuario");
+        ModelAndView mv = new ModelAndView("listarUsuario");
 
         Iterable<Usuario> usuarios = ur.findAll();
 
