@@ -1,12 +1,10 @@
 package programacao.web.controller;
 
 import org.springframework.stereotype.Controller;
-// import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
 
 import programacao.web.model.Usuario;
 import programacao.web.repository.UsuarioRepository;
@@ -16,7 +14,7 @@ public class UsuarioController {
 
     private UsuarioRepository ur;
     
-    // @Autowired
+    @Autowired
     public UsuarioController(UsuarioRepository usuarioRepository) {
         this.ur = usuarioRepository;
     }
@@ -36,15 +34,13 @@ public class UsuarioController {
     }
 
     @RequestMapping("/listarUsuario")
-    public ModelAndView listarUsuario() {
-
-        ModelAndView mv = new ModelAndView("listarUsuario");
+    public String listarUsuario(Model model) {
 
         Iterable<Usuario> usuarios = ur.findAll();
 
-        mv.addObject("usuarios", usuarios);
+        model.addAttribute("usuarios", usuarios);
 
-        return mv;
+        return "listarUsuario";
 
     }
 }
