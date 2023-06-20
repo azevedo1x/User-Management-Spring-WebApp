@@ -11,13 +11,9 @@ import programacao.web.repository.UsuarioRepository;
 
 @Controller
 public class UsuarioController {
-
-    private UsuarioRepository ur;
     
     @Autowired
-    public UsuarioController(UsuarioRepository usuarioRepository) {
-        this.ur = usuarioRepository;
-    }
+    private UsuarioRepository ur;
 
     @RequestMapping(value = "/cadastrarUsuario", method = RequestMethod.GET)
     public String exibirForm(Model model) {
