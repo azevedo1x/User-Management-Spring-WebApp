@@ -34,7 +34,7 @@ public class UsuarioController {
     }
 
     @RequestMapping("/listarUsuario")
-    public String listarUsuario(Model model) {
+    public String mostrarUsuario(Model model) {
 
         Iterable<Usuario> usuarios = ur.findAll();
 
