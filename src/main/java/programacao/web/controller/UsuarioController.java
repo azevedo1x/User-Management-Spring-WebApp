@@ -11,9 +11,11 @@ import programacao.web.repository.UsuarioRepository;
 
 @Controller
 public class UsuarioController {
-    
+
     @Autowired
     private UsuarioRepository ur;
+
+    private Iterable<Usuario> usuarios;
 
     @RequestMapping(value = "/cadastrarUsuario", method = RequestMethod.GET)
     public String exibirForm(Model model) {
@@ -25,18 +27,52 @@ public class UsuarioController {
     public String processarForm(Usuario usuario) {
 
         ur.save(usuario);
+        verificarUsuario();
         return "redirect:/cadastrarUsuario";
+
+    }
+
+    public Iterable<Usuario> preencherIterable() {
+
+        Iterable<Usuario> usuarios = ur.findAll();
+
+        return usuarios;
 
     }
 
     @RequestMapping("/listarUsuario")
     public String mostrarUsuario(Model model) {
-
-        Iterable<Usuario> usuarios = ur.findAll();
+        preencherIterable();
 
         model.addAttribute("usuarios", usuarios);
 
         return "listarUsuario";
 
     }
+
+    public void verificarUsuario() {
+
+        String login_temp = null;
+
+        for (Usuario usuario : usuarios) {
+
+            try {
+
+                if (login_temp == usuario.getLogin()) {
+
+                    throw new Excecao("Usuário inválido.");
+
+                }
+
+            } catch (Excecao e) {
+
+                ur.delete(usuario);
+
+            }
+
+            login_temp = usuario.getLogin();
+
+        }
+    }
+
 }
