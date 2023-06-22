@@ -42,6 +42,7 @@ public class UsuarioController {
 
     @RequestMapping("/listarUsuario")
     public String mostrarUsuario(Model model) {
+
         preencherIterable();
 
         model.addAttribute("usuarios", usuarios);
@@ -73,6 +74,12 @@ public class UsuarioController {
             login_temp = usuario.getLogin();
 
         }
+    }
+
+    public void confirmarEmail() {
+
+        String emailconfirmado = request.getParameter("emailconfirmado");
+
     }
 
 }
