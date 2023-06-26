@@ -12,11 +12,8 @@ import programacao.web.repository.UsuarioRepository;
 @Controller
 public class UsuarioController {
 
-
     @Autowired
     private UsuarioRepository ur;
-
-    private Iterable<Usuario> usuarios;
 
     private Iterable<Usuario> usuarios;
 
@@ -30,7 +27,6 @@ public class UsuarioController {
     public String processarForm(Usuario usuario) {
 
         ur.save(usuario);
-        verificarUsuario();
         verificarUsuario();
         return "redirect:/cadastrarUsuario";
 
