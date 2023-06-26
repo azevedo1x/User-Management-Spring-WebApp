@@ -15,21 +15,21 @@
 
     <h3> Cadastrar Usuário </h3>
 
-    <form method="post" th:object="${usuario}">
+    form method="post" th:object="${usuario}">
 
-        Login: <input type="text" th:value="*{login}"><br><br>
+    Login: <input type="text" th:value="*{login}"><br><br>
 
-        Nome Completo: <input type="text" th:value="*{nome}"><br><br>
+    Nome Completo: <input type="text" th:value="*{nome}"><br><br>
 
-        Senha: <input type="password" th:value="*{senha}"><br><br>
+    Senha: <input type="password" th:value="*{senha}"><br><br>
 
-        E-mail: <input type="email" th:value="*{email}"><br><br>
+    E-mail: <input type="email" th:value="*{email}"><br><br>
 
-        Confirmar E-mail: <input type="email" th:value="*{emailconfirma}"> <br> <br>
+    Confirmar E-mail: <input type="email" th:value="*{emailconfirma}"> <br> <br>
 
-        <button type="submit">Enviar</button>
+    <button type="submit">Enviar</button>
 
-    </form>
+</form>
 
 </body>
 
