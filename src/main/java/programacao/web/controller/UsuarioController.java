@@ -24,9 +24,18 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "/cadastrarUsuario", method = RequestMethod.POST)
-    public String processarForm(Usuario usuario){
+    public String processarForm(Usuario usuario, Model model) {
 
-        verificarUsuario(usuario);
+        try {
+
+            verificarUsuario(usuario);
+
+        } catch (Exception e) {
+
+            model.addAttribute("erro", e.getMessage());
+            return "formUsuario";
+
+        }
 
         ur.save(usuario);
         return "redirect:/cadastrarUsuario";
@@ -43,7 +52,7 @@ public class UsuarioController {
 
     }
 
-    public void verificarUsuario(Usuario usuario){
+    public void verificarUsuario(Usuario usuario) throws Excecao {
 
         Usuario existingUser = ur.findByLogin(usuario.getLogin());
 
