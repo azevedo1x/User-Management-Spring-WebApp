@@ -31,4 +31,5 @@ public class Banco {
         adapter.setPrepareConnection(true);
         return adapter;
     }
+
 }

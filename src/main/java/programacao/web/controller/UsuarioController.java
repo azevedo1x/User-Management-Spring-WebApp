@@ -32,16 +32,18 @@ public class UsuarioController {
 
     }
 
-    public Iterable<Usuario> preencherIterable(Iterable<Usuario> usuarios) {
+    public Iterable<Usuario> preencherIterable() {
 
-        return ur.findAll();
+        Iterable<Usuario> usuarios = ur.findAll();
+
+        return usuarios;
 
     }
 
     @RequestMapping("/listarUsuario")
     public String mostrarUsuario(Model model) {
 
-        usuarios = preencherIterable(usuarios);
+        preencherIterable();
 
         model.addAttribute("usuarios", usuarios);
 
@@ -51,21 +53,15 @@ public class UsuarioController {
 
     public void verificarUsuario() {
 
-        String login_temp = "null";
+        String login_temp = null;
 
         for (Usuario usuario : usuarios) {
 
             try {
 
-                if (login_temp.equals(usuario.getLogin())) {
+                if (login_temp == usuario.getLogin()) {
 
                     throw new Excecao("Usuário inválido.");
-
-                }
-
-                if (!usuario.getEmail().equals(usuario.getEmailconfirma())) {
-
-                    throw new Excecao("E-mails não coincidem.");
 
                 }
 
@@ -78,6 +74,12 @@ public class UsuarioController {
             login_temp = usuario.getLogin();
 
         }
+    }
+
+    public void confirmarEmail() {
+
+        String emailconfirmado = request.getParameter("emailconfirmado");
+
     }
 
 }
