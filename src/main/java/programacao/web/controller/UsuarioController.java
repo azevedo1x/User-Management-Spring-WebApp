@@ -65,6 +65,12 @@ public class UsuarioController {
 
                 }
 
+                if (usuario.getEmail() != usuario.getEmailconfirma()) {
+
+                    throw new Excecao("E-mails não coincidem.");
+
+                }
+
             } catch (Excecao e) {
 
                 ur.delete(usuario);
@@ -74,12 +80,6 @@ public class UsuarioController {
             login_temp = usuario.getLogin();
 
         }
-    }
-
-    public void confirmarEmail() {
-
-        String emailconfirmado = request.getParameter("emailconfirmado");
-
     }
 
 }

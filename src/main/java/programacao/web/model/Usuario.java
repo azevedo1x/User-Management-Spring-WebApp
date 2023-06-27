@@ -13,6 +13,15 @@ public class Usuario implements Serializable {
     private String senha;
     private String nome;
     private String email;
+    private String emailconfirma;
+
+    public String getEmailconfirma() {
+        return emailconfirma;
+    }
+
+    public void setEmailconfirma(String emailconfirma) {
+        this.emailconfirma = emailconfirma;
+    }
 
     public String getNome() {
         return nome;
