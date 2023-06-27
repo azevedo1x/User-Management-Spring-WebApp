@@ -15,71 +15,48 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository ur;
 
-    private Iterable<Usuario> usuarios;
-
     @RequestMapping(value = "/cadastrarUsuario", method = RequestMethod.GET)
     public String exibirForm(Model model) {
+
         model.addAttribute("usuario", new Usuario());
         return "formUsuario";
+
     }
 
     @RequestMapping(value = "/cadastrarUsuario", method = RequestMethod.POST)
-    public String processarForm(Usuario usuario) {
+    public String processarForm(Usuario usuario){
+
+        verificarUsuario(usuario);
 
         ur.save(usuario);
-        verificarUsuario();
         return "redirect:/cadastrarUsuario";
-
-    }
-
-    public Iterable<Usuario> preencherIterable() {
-
-        Iterable<Usuario> usuarios = ur.findAll();
-
-        return usuarios;
 
     }
 
     @RequestMapping("/listarUsuario")
     public String mostrarUsuario(Model model) {
 
-        preencherIterable();
-
+        Iterable<Usuario> usuarios = ur.findAll();
         model.addAttribute("usuarios", usuarios);
 
         return "listarUsuario";
 
     }
 
-    public void verificarUsuario() {
+    public void verificarUsuario(Usuario usuario){
 
-        String login_temp = null;
+        Usuario existingUser = ur.findByLogin(usuario.getLogin());
 
-        for (Usuario usuario : usuarios) {
+        if (existingUser != null) {
 
-            try {
+            throw new Excecao("Usuário inválido. Já existe um usuário com o mesmo login.");
 
-                if (login_temp == usuario.getLogin()) {
+        }
 
-                    throw new Excecao("Usuário inválido.");
+        if (!usuario.getEmail().equals(usuario.getEmailconfirma())) {
 
-                }
-
-                if (usuario.getEmail() != usuario.getEmailconfirma()) {
-
-                    throw new Excecao("E-mails não coincidem.");
-
-                }
-
-            } catch (Excecao e) {
-
-                ur.delete(usuario);
-
-            }
-
-            login_temp = usuario.getLogin();
+            throw new Excecao("E-mails não coincidem.");
 
         }
     }
-
 }
