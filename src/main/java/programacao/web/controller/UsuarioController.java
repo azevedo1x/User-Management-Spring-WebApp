@@ -1,6 +1,10 @@
 package programacao.web.controller;
 
 import org.springframework.stereotype.Controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,37 +58,44 @@ public class UsuarioController {
 
     public void verificarUsuario(Usuario usuario) throws Excecao {
 
+        List<String> mensagensExcecao = new ArrayList<>();
         Usuario usuarioExistente = ur.findByLogin(usuario.getLogin());
 
         if (usuarioExistente != null) {
 
-            throw new Excecao("Usuário inválido. Já existe um usuário com o mesmo login.");
+            mensagensExcecao.add("Usuário inválido. Já existe um usuário com o mesmo login.");
 
         }
 
         if (!usuario.getEmail().equals(usuario.getEmailconfirma())) {
 
-            throw new Excecao("E-mails não coincidem.");
+            mensagensExcecao.add("E-mails não coincidem.");
 
         }
 
         if (usuario.getSenha().length() < 4 || usuario.getSenha().length() > 8) {
 
-            throw new Excecao("Sua senha deve ter um mínimo de 4 caracteres e um máximo de 8 caracteres.");
+            mensagensExcecao.add("Sua senha deve ter um mínimo de 4 caracteres e um máximo de 8 caracteres.");
 
         }
 
         if (usuario.getSenha().equals(usuario.getLogin())) {
 
-            throw new Excecao("A senha não pode ser igual ao login.");
+            mensagensExcecao.add("A senha não pode ser igual ao login.");
 
         }
 
         if (!usuario.getSenha().equals(usuario.getSenhaconfirma())) {
 
-            throw new Excecao("Senhas não coincidem.");
+            mensagensExcecao.add("Senhas não coincidem.");
 
         }
 
+        if (!mensagensExcecao.isEmpty()) {
+
+            throw new Excecao(String.join(" ", mensagensExcecao));
+
+        }
     }
+
 }
