@@ -11,6 +11,7 @@ public class Usuario implements Serializable {
     @Id
     private String login;
     private String senha;
+    private String senhaconfirma;
     private String nome;
     private String email;
     private String emailconfirma;
@@ -49,6 +50,14 @@ public class Usuario implements Serializable {
 
     public String getSenha() {
         return senha;
+    }
+
+    public String getSenhaconfirma() {
+        return senhaconfirma;
+    }
+
+    public void setSenhaconfirma(String senhaconfirma) {
+        this.senhaconfirma = senhaconfirma;
     }
 
     public void setSenha(String senha) {

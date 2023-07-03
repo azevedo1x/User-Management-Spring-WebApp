@@ -54,9 +54,9 @@ public class UsuarioController {
 
     public void verificarUsuario(Usuario usuario) throws Excecao {
 
-        Usuario existingUser = ur.findByLogin(usuario.getLogin());
+        Usuario usuarioExistente = ur.findByLogin(usuario.getLogin());
 
-        if (existingUser != null) {
+        if (usuarioExistente != null) {
 
             throw new Excecao("Usuário inválido. Já existe um usuário com o mesmo login.");
 
@@ -67,5 +67,24 @@ public class UsuarioController {
             throw new Excecao("E-mails não coincidem.");
 
         }
+
+        if (usuario.getSenha().length() < 4 || usuario.getSenha().length() > 8) {
+
+            throw new Excecao("Sua senha deve ter um mínimo de 4 caracteres e um máximo de 8 caracteres.");
+
+        }
+
+        if (usuario.getSenha().equals(usuario.getLogin())) {
+
+            throw new Excecao("A senha não pode ser igual ao login.");
+
+        }
+
+        if (!usuario.getSenha().equals(usuario.getSenhaconfirma())) {
+
+            throw new Excecao("Senhas não coincidem.");
+
+        }
+
     }
 }
