@@ -11,6 +11,8 @@ import org.springframework.orm.jpa.vendor.Database;
 @Configuration
 public class Banco {
 
+    // conectar banco: java -cp hsqldb.jar org.hsqldb.server.Server --database.0 file:mydb --dbname.0 banco
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
