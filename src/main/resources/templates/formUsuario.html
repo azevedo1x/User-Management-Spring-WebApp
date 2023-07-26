@@ -15,7 +15,11 @@
 
 <body>
 
-    <h3> Cadastrar Usuário </h3>
+    <br>
+
+    <a href="/"> Início </a>
+
+    <hr>
 
     <form method="post" th:object="${usuario}">
 
@@ -38,7 +42,6 @@
     <div th:if="${erro}">
         <p th:text="${erro}"></p>
     </div>
-
 
 </body>
 
