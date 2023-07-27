@@ -83,8 +83,37 @@ public class UsuarioController {
 
     }
 
+    @RequestMapping(value = "/removerUsuario", method = RequestMethod.GET)
+    public String exibirFormRemocao(Model model) {
+
+        model.addAttribute("usuario", new Usuario());
+
+        return "formRemocao";
+
+    }
+
+    @RequestMapping(value = "/removerUsuario", method = RequestMethod.POST)
+    public String processarFormRemocao(Usuario usuario, Model model) throws Excecao {
+
+        Usuario usuarioExistente = ur.findByLogin(usuario.getLogin());
+
+        if (usuarioExistente != null) {
+
+            ur.delete(usuarioExistente);
+
+        } else {
+
+            model.addAttribute("erro", "Usuário não encontrado.");
+            return "formRemocao";
+
+        }
+
+        return "redirect:/removerUsuario";
+
+    }
+
     @RequestMapping("/listarUsuario")
-    public String mostrarUsuario(Model model) {
+    public String listarUsuario(Model model) {
 
         Iterable<Usuario> usuarios = ur.findAll();
         model.addAttribute("usuarios", usuarios);
