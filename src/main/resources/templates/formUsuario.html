@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -19,28 +20,39 @@
 
     <hr>
 
-    <form method="post" th:object="${usuario}">
+    <div class="container">
 
-        Login: <input type="text" name="login" th:value="*{login}"><br><br>
+        <div class="d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+            
+            <form method="post" th:object="${usuario}">
 
-        Nome Completo: <input type="text" name="nome" th:value="*{nome}"><br><br>
+                <div class="mb-3">
 
-        Senha: <input type="password" name="senha" th:value="*{senha}"><br><br>
+                    Login: <input type="text" class="form-control" name="login" th:value="*{login}"><br><br>
 
-        Confirmar Senha: <input type="password" name="senhaconfirma" th:value="*{senhaconfirma}"> <br><br>
+                    Nome Completo: <input type="text" class="form-control" name="nome" th:value="*{nome}"><br><br>
 
-        E-mail: <input type="text" name="email" th:value="*{email}"><br><br>
+                    Senha: <input type="password" class="form-control" name="senha" th:value="*{senha}"><br><br>
 
-        Confirmar E-mail: <input type="text" name="emailconfirma" th:value="*{emailconfirma}"><br><br>
+                    Confirmar Senha: <input type="password" class="form-control" name="senhaconfirma"
+                        th:value="*{senhaconfirma}"> <br><br>
 
-        <button type="submit">Enviar</button>
+                    E-mail: <input type="text" class="form-control" name="email" th:value="*{email}"><br><br>
 
-    </form>
+                    Confirmar E-mail: <input type="text" class="form-control" name="emailconfirma"
+                        th:value="*{emailconfirma}"><br><br>
 
-    <div th:if="${erro}">
-        <p th:text="${erro}"></p>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Enviar</button>
+
+            </form>
+
+            <div th:if="${erro}">
+                <p th:text="${erro}"></p>
+            </div>
+        </div>
     </div>
-
 </body>
 
 </html>
