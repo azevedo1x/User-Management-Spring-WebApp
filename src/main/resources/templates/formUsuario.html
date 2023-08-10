@@ -9,49 +9,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Usuario</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="
+        sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 <body>
 
-    <br>
+    <a href="/"> <svg xmlns="http://www.w3.org/2000/svg" width="50" height="25" fill="currentColor"
+            class="bi bi-house-fill" viewBox="0 0 16 16">
+            <path
+                d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z" />
+            <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z" />
+        </svg> </a>
 
-    <a href="/"> Início </a>
+    <div class="container-fluid bg-light bg-gradient">
 
-    <hr>
-
-    <div class="container">
-
-        <div class="d-flex align-items-center justify-content-center" style="min-height: 100vh;">
-            
+        <div class="d-flex align-items-center justify-content-center text-dark" style="min-height: 100vh;">
             <form method="post" th:object="${usuario}">
 
-                <div class="mb-3">
+                <div class="container-fluid bg-body-tertiary rounded shadow-lg p-3">
 
-                    Login: <input type="text" class="form-control" name="login" th:value="*{login}"><br><br>
+                    Login: <input type="text" class="form-control" name="login" th:value="*{login}"><br>
 
-                    Nome Completo: <input type="text" class="form-control" name="nome" th:value="*{nome}"><br><br>
+                    Nome Completo: <input type="text" class="form-control" name="nome" th:value="*{nome}"><br>
 
-                    Senha: <input type="password" class="form-control" name="senha" th:value="*{senha}"><br><br>
+                    Senha: <input type="password" class="form-control" name="senha" th:value="*{senha}"><br>
 
                     Confirmar Senha: <input type="password" class="form-control" name="senhaconfirma"
-                        th:value="*{senhaconfirma}"> <br><br>
+                        th:value="*{senhaconfirma}"> <br>
 
-                    E-mail: <input type="text" class="form-control" name="email" th:value="*{email}"><br><br>
+                    E-mail: <input type="text" class="form-control" name="email" th:value="*{email}"><br>
 
                     Confirmar E-mail: <input type="text" class="form-control" name="emailconfirma"
-                        th:value="*{emailconfirma}"><br><br>
+                        th:value="*{emailconfirma}"><br>
 
-                </div>
-
-                <button type="submit" class="btn btn-primary">Enviar</button>
-
+                    <button type="submit" class="btn btn-primary">Enviar</button>
             </form>
-
-            <div th:if="${erro}">
-                <p th:text="${erro}"></p>
-            </div>
         </div>
+        <div class="card m-2 p-1 bg-danger text-light rounded shadow-lg" th:if="${erro}">
+            <p th:text="${erro}"></p>
+        </div>
+    </div>
     </div>
 </body>
 
