@@ -25,21 +25,21 @@
 
     <div class="container-fluid bg-light bg-gradient">
 
-        <div class="d-flex align-items-center justify-content-center text-dark" style="min-height: 100vh;">
+        <div class="container d-flex align-items-center justify-content-center text-dark">
             <h3> Lista de usuários </h3>
+        </div>
 
-            <h5> Login&emsp; <h5>
-                
-            <div th:each="usuario:${usuarios}">
+        <div class="d-flex align-items-center justify-content-center text-dark" style="min-height: 30vh;">
 
-                <div class="row">
-                    <p>
-                        <span th:text="${usuario.login}"> </span>
-                        <span th:text="${usuario.nome}"> </span>
+            <div class="bg-body-tertiary rounded shadow-lg p-3">
+                <h5> Logins:&emsp; <h5>
+                <div th:each="usuario:${usuarios}">
+                            <div class="row row-cols-1"
+                                style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+                                <span th:text="${usuario.login}"></span>
+                            </div>
 
-                    </p>
                 </div>
-
             </div>
         </div>
     </div>
