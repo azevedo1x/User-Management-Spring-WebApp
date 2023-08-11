@@ -24,7 +24,7 @@
 
     <div class="container-fluid bg-light bg-gradient">
 
-        <div class="d-flex align-items-center justify-content-center text-dark" style="min-height: 100vh;">
+        <div class="d-flex align-items-center justify-content-center text-dark" style="min-height: 50vh;">
             <form method="post" th:object="${usuario}">
 
                 <div class="container-fluid bg-body-tertiary rounded shadow-lg p-3">
@@ -44,12 +44,12 @@
                         th:value="*{emailconfirma}"><br>
 
                     <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
             </form>
+            <div class="card w-60 m-2 p-1 bg-danger text-light rounded shadow-lg" th:if="${erro}">
+                <p th:text="${erro}"></p>
+            </div>
         </div>
-        <div class="card m-2 p-1 bg-danger text-light rounded shadow-lg" th:if="${erro}">
-            <p th:text="${erro}"></p>
-        </div>
-    </div>
     </div>
 </body>
 
