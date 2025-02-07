@@ -74,7 +74,7 @@ public class UsuarioController {
 
         } else {
 
-            model.addAttribute("erro", "Usuário não encontrado.");
+            model.addAttribute("erro", "User not found.");
             return "formUsuario";
 
         }
@@ -103,7 +103,7 @@ public class UsuarioController {
 
         } else {
 
-            model.addAttribute("erro", "Usuário não encontrado.");
+            model.addAttribute("erro", "User not found.");
             return "formRemocao";
 
         }
@@ -129,31 +129,32 @@ public class UsuarioController {
 
         if (usuarioExistente != null) {
 
-            mensagensExcecao.add("Usuário inválido. Já existe um usuário com o mesmo login.");
+            mensagensExcecao.add("Invalid user. There is already a user with this login registered.");
 
         }
 
         if (!usuario.getEmail().equals(usuario.getEmailconfirma())) {
 
-            mensagensExcecao.add("E-mails não coincidem.");
+            mensagensExcecao.add("E-mails dont't match.");
 
         }
 
         if (usuario.getSenha().length() < 4 || usuario.getSenha().length() > 8) {
 
-            mensagensExcecao.add("Sua senha deve ter um mínimo de 4 caracteres e um máximo de 8 caracteres.");
+            mensagensExcecao.add("Your password should have the minimun length of four characters and the "
+            + "maximum of eight.");
 
         }
 
         if (usuario.getSenha().equals(usuario.getLogin())) {
 
-            mensagensExcecao.add("A senha não pode ser igual ao login.");
+            mensagensExcecao.add("The password can't be the same as the login");
 
         }
 
         if (!usuario.getSenha().equals(usuario.getSenhaconfirma())) {
 
-            mensagensExcecao.add("Senhas não coincidem.");
+            mensagensExcecao.add("Passwords don't match.");
 
         }
 
@@ -170,25 +171,25 @@ public class UsuarioController {
 
         if (!usuario.getEmail().equals(usuario.getEmailconfirma())) {
 
-            mensagensExcecao.add("E-mails não coincidem.");
+            mensagensExcecao.add("E-mails don't match.");
 
         }
 
         if (usuario.getSenha().length() < 4 || usuario.getSenha().length() > 8) {
 
-            mensagensExcecao.add("Sua senha deve ter um mínimo de 4 caracteres e um máximo de 8 caracteres.");
-
+            mensagensExcecao.add("Your password should have the minimun length of four characters and the "
+            + "maximum of eight.");
         }
 
         if (usuario.getSenha().equals(usuario.getLogin())) {
 
-            mensagensExcecao.add("A senha não pode ser igual ao login.");
+            mensagensExcecao.add("The password can't be the same as the login");
 
         }
 
         if (!usuario.getSenha().equals(usuario.getSenhaconfirma())) {
 
-            mensagensExcecao.add("Senhas não coincidem.");
+            mensagensExcecao.add("Passwords don't match.");
 
         }
 
