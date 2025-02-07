@@ -32,8 +32,8 @@ This project is a **Spring Boot** web application designed to manage user regist
 
 ### 1. **Clone the Repository**
 ```bash
-git clone https://github.com/azevedo1x/user-management-spring-boot.git
-cd user-management-spring-boot
+git clone https://github.com/azevedo1x/user-management-spring-webapp.git
+cd user-management-spring-webapp
 ```
 
 ### 2. **Start HSQLDB Server**
