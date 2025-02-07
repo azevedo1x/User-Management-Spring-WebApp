@@ -12,7 +12,7 @@ This project is a **Spring Boot** web application designed to manage user regist
   - Remove users by login.
   
 - **Form Validation** with custom exceptions.
-- **Database Integration** using **HSQLDB**.
+- **Database Integration** using **POSTGRESQL**.
 - **Thymeleaf Templates** for dynamic front-end rendering.
 - **Bootstrap** for responsive design.
 
@@ -22,7 +22,7 @@ This project is a **Spring Boot** web application designed to manage user regist
 - **Java 17+**
 - **Spring Boot 3+**
 - **Spring Data JPA**
-- **HSQLDB**
+- **POSTGRESQL**
 - **Thymeleaf**
 - **Bootstrap 5**
 
@@ -36,18 +36,21 @@ git clone https://github.com/azevedo1x/user-management-spring-webapp.git
 cd user-management-spring-webapp
 ```
 
-### 2. **Start HSQLDB Server**
+<!-- skip this step 2. **Start HSQLDB Server**
 Run the following command to start the database:
 ```bash
 java -cp hsqldb.jar org.hsqldb.server.Server --database.0 file:mydb --dbname.0 banco
-```
+``` -->
+
+### 2. **Create PostegreSQL database**
+CREATE DATABASE gerenciamentoDeUsuarios;
 
 ### 3. **Configure Database**
 Check `Banco.java` for the current database configuration:
 ```java
-dataSource.setUrl("jdbc:hsqldb:hsql://localhost/banco");
-dataSource.setUsername("SA");
-dataSource.setPassword("");
+dataSource.setUrl("jdbc:postgresql://localhost/gerenciamentoDeUsuarios");
+dataSource.setUsername("your_username");
+dataSource.setPassword("your_password");
 ```
 Ensure the database server is running on `localhost`.
 
