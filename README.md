@@ -36,12 +36,6 @@ git clone https://github.com/azevedo1x/user-management-spring-webapp.git
 cd user-management-spring-webapp
 ```
 
-<!-- skip this step 2. **Start HSQLDB Server**
-Run the following command to start the database:
-```bash
-java -cp hsqldb.jar org.hsqldb.server.Server --database.0 file:mydb --dbname.0 banco
-``` -->
-
 ### 2. **Create PostegreSQL database**
 CREATE DATABASE gerenciamentoDeUsuarios;
 

@@ -18,8 +18,6 @@ public class Banco {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost/gerenciamentoDeUsuarios");
-        // dataSource.setUrl("jdbc:hsqldb:hsql://localhost/banco"); commented just in case i've ever want
-        // to go back to hypersql
         dataSource.setUsername("postgres");
         dataSource.setPassword("postgres");
         return dataSource;
