@@ -1,204 +1,89 @@
 package programacao.web.controller;
 
 import org.springframework.stereotype.Controller;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import programacao.web.model.Usuario;
-import programacao.web.repository.UsuarioRepository;
+import programacao.web.service.UsuarioService;
+import programacao.web.dto.UsuarioDTO;
+import programacao.web.exception.UsuarioException;
 
 @Controller
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
+    private final UsuarioService usuarioService;
+
     @Autowired
-    private UsuarioRepository ur;
-
-    @RequestMapping(value = { "/cadastrarUsuario", "/editarUsuario" }, method = RequestMethod.GET)
-    public String exibirForm(Model model) {
-
-        model.addAttribute("usuario", new Usuario());
-
-        return "formUsuario";
-
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
-    @RequestMapping(value = "/cadastrarUsuario", method = RequestMethod.POST)
-    public String processarFormCadastro(Usuario usuario, Model model) {
+    @GetMapping("/cadastrar")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("usuario", new UsuarioDTO());
+        return "formUsuario";
+    }
 
+    @PostMapping("/cadastrar")
+    public String registerUser(@ModelAttribute UsuarioDTO usuarioDTO, 
+                             RedirectAttributes redirectAttributes, 
+                             Model model) {
         try {
-
-            verificarUsuarioCadastro(usuario);
-
-        } catch (Exception e) {
-
+            usuarioService.registerUser(usuarioDTO);
+            redirectAttributes.addFlashAttribute("success", "User registered successfully");
+            return "redirect:/usuarios/cadastrar";
+        } catch (UsuarioException e) {
             model.addAttribute("erro", e.getMessage());
             return "formUsuario";
-
         }
-
-        ur.save(usuario);
-
-        return "redirect:/cadastrarUsuario";
-
     }
 
-    @RequestMapping(value = "/editarUsuario", method = RequestMethod.POST)
-    public String processarFormEdicao(Usuario usuario, Model model) throws Excecao {
+    @GetMapping("/editar")
+    public String showEditForm(Model model) {
+        model.addAttribute("usuario", new UsuarioDTO());
+        return "formUsuario";
+    }
 
-        Usuario usuarioExistente = ur.findByLogin(usuario.getLogin());
-
-        if (usuarioExistente != null) {
-
-            usuarioExistente.setNome(usuario.getNome());
-            usuarioExistente.setEmail(usuario.getEmail());
-            usuarioExistente.setSenha(usuario.getSenha());
-
-            try {
-
-                verificarUsuarioEdicao(usuario);
-
-            } catch (Exception e) {
-
-                model.addAttribute("erro", e.getMessage());
-                return "formUsuario";
-
-            }
-
-            ur.save(usuarioExistente);
-
-        } else {
-
-            model.addAttribute("erro", "User not found.");
+    @PostMapping("/editar")
+    public String editUser(@ModelAttribute UsuarioDTO usuarioDTO, 
+                          RedirectAttributes redirectAttributes, 
+                          Model model) {
+        try {
+            usuarioService.updateUser(usuarioDTO);
+            redirectAttributes.addFlashAttribute("success", "User updated successfully");
+            return "redirect:/usuarios/editar";
+        } catch (UsuarioException e) {
+            model.addAttribute("erro", e.getMessage());
             return "formUsuario";
-
         }
-
-        return "redirect:/editarUsuario";
-
     }
 
-    @RequestMapping(value = "/removerUsuario", method = RequestMethod.GET)
-    public String exibirFormRemocao(Model model) {
-
-        model.addAttribute("usuario", new Usuario());
-
+    @GetMapping("/remover")
+    public String showRemovalForm(Model model) {
+        model.addAttribute("usuario", new UsuarioDTO());
         return "formRemocao";
-
     }
 
-    @RequestMapping(value = "/removerUsuario", method = RequestMethod.POST)
-    public String processarFormRemocao(Usuario usuario, Model model) throws Excecao {
-
-        Usuario usuarioExistente = ur.findByLogin(usuario.getLogin());
-
-        if (usuarioExistente != null) {
-
-            ur.delete(usuarioExistente);
-
-        } else {
-
-            model.addAttribute("erro", "User not found.");
+    @PostMapping("/remover")
+    public String removeUser(@ModelAttribute UsuarioDTO usuarioDTO, 
+                           RedirectAttributes redirectAttributes, 
+                           Model model) {
+        try {
+            usuarioService.deleteUser(usuarioDTO.getLogin());
+            redirectAttributes.addFlashAttribute("success", "User removed successfully");
+            return "redirect:/usuarios/remover";
+        } catch (UsuarioException e) {
+            model.addAttribute("erro", e.getMessage());
             return "formRemocao";
-
         }
-
-        return "redirect:/removerUsuario";
-
     }
 
-    @RequestMapping("/listarUsuario")
-    public String listarUsuario(Model model) {
-
-        Iterable<Usuario> usuarios = ur.findAll();
-        model.addAttribute("usuarios", usuarios);
-
+    @GetMapping("/listar")
+    public String listUsers(Model model) {
+        model.addAttribute("usuarios", usuarioService.findAllUsers());
         return "listarUsuario";
-
     }
-
-    public void verificarUsuarioCadastro(Usuario usuario) throws Excecao {
-
-        List<String> mensagensExcecao = new ArrayList<>();
-        Usuario usuarioExistente = ur.findByLogin(usuario.getLogin());
-
-        if (usuarioExistente != null) {
-
-            mensagensExcecao.add("Invalid user. There is already a user with this login registered.");
-
-        }
-
-        if (!usuario.getEmail().equals(usuario.getEmailconfirma())) {
-
-            mensagensExcecao.add("E-mails dont't match.");
-
-        }
-
-        if (usuario.getSenha().length() < 4 || usuario.getSenha().length() > 8) {
-
-            mensagensExcecao.add("Your password should have the minimun length of four characters and the "
-            + "maximum of eight.");
-
-        }
-
-        if (usuario.getSenha().equals(usuario.getLogin())) {
-
-            mensagensExcecao.add("The password can't be the same as the login");
-
-        }
-
-        if (!usuario.getSenha().equals(usuario.getSenhaconfirma())) {
-
-            mensagensExcecao.add("Passwords don't match.");
-
-        }
-
-        if (!mensagensExcecao.isEmpty()) {
-
-            throw new Excecao(String.join(" ", mensagensExcecao));
-
-        }
-    }
-
-    public void verificarUsuarioEdicao(Usuario usuario) throws Excecao {
-
-        List<String> mensagensExcecao = new ArrayList<>();
-
-        if (!usuario.getEmail().equals(usuario.getEmailconfirma())) {
-
-            mensagensExcecao.add("E-mails don't match.");
-
-        }
-
-        if (usuario.getSenha().length() < 4 || usuario.getSenha().length() > 8) {
-
-            mensagensExcecao.add("Your password should have the minimun length of four characters and the "
-            + "maximum of eight.");
-        }
-
-        if (usuario.getSenha().equals(usuario.getLogin())) {
-
-            mensagensExcecao.add("The password can't be the same as the login");
-
-        }
-
-        if (!usuario.getSenha().equals(usuario.getSenhaconfirma())) {
-
-            mensagensExcecao.add("Passwords don't match.");
-
-        }
-
-        if (!mensagensExcecao.isEmpty()) {
-
-            throw new Excecao(String.join(" ", mensagensExcecao));
-
-        }
-
-    }
-
 }
