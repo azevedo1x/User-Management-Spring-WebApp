@@ -9,7 +9,7 @@ import programacao.web.dto.UsuarioDTO;
 import programacao.web.exception.UsuarioException;
 
 @Controller
-@RequestMapping("/usuarios")
+@RequestMapping("/")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -31,7 +31,7 @@ public class UsuarioController {
         try {
             usuarioService.registerUser(usuarioDTO);
             redirectAttributes.addFlashAttribute("success", "User registered successfully");
-            return "redirect:/usuarios/cadastrar";
+            return "redirect:/cadastrar";
         } catch (UsuarioException e) {
             model.addAttribute("erro", e.getMessage());
             return "formUsuario";
@@ -51,7 +51,7 @@ public class UsuarioController {
         try {
             usuarioService.updateUser(usuarioDTO);
             redirectAttributes.addFlashAttribute("success", "User updated successfully");
-            return "redirect:/usuarios/editar";
+            return "redirect:/editar";
         } catch (UsuarioException e) {
             model.addAttribute("erro", e.getMessage());
             return "formUsuario";
@@ -71,7 +71,7 @@ public class UsuarioController {
         try {
             usuarioService.deleteUser(usuarioDTO.getLogin());
             redirectAttributes.addFlashAttribute("success", "User removed successfully");
-            return "redirect:/usuarios/remover";
+            return "redirect:/remover";
         } catch (UsuarioException e) {
             model.addAttribute("erro", e.getMessage());
             return "formRemocao";

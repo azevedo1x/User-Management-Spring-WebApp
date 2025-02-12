@@ -3,122 +3,185 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spring Boot WebApp</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-        <link rel="icon" href="https://img.icons8.com/?size=100&id=13042&format=png&color=000000" type="image/png">
-
+    <title>User Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #4f46e5;
+            --hover-color: #4338ca;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+        }
+
         body {
-            font-family: 'Arial', Helvetica, sans-serif;
-            background-color: #f4f6f9;
-        }
-
-        .container-fluid {
-            padding: 20px;
-            background-color: #e9ecef;
-        }
-
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-        }
-
-        .card-header {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-bottom: 1px solid #dee2e6;
-            text-align: center;
-        }
-
-        .card-header h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .card-body h5 {
-            font-size: 1.25rem;
-            color: #495057;
-            margin-bottom: 15px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        ul li {
-            margin: 10px 0;
-        }
-
-        ul li a {
-            text-decoration: none;
-            color: #007bff;
-            font-size: 1rem;
-        }
-
-        ul li a:hover {
-            text-decoration: underline;
-            color: #0056b3;
-        }
-
-        .d-flex {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .card {
-                width: 100%;
-            }
+        .navbar-brand {
+            font-weight: 600;
+            color: var(--primary-color) !important;
+        }
 
-            .card-header h3 {
-                font-size: 1.25rem;
-            }
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+        }
 
-            .card-body h5 {
-                font-size: 1.1rem;
-            }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
 
-            ul li a {
-                font-size: 0.9rem;
-            }
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .stats-card {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background: var(--hover-color);
+        }
+
+        .search-bar {
+            border-radius: 2rem;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 2rem;
         }
     </style>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="d-flex align-items-center justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>User Management WebApp</h3>
-                    </div>
-                    <div class="card-body">
-                        <h5>Features:</h5>
-                        <ul>
-                            <li><a href="/cadastrarUsuario">Create user</a></li>
-                            <li><a href="/editarUsuario">Edit user</a></li>
-                            <li><a href="/listarUsuario">List user</a></li>
-                            <li><a href="/removerUsuario">Delete user</a></li>
-                        </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-users-cog me-2"></i>
+                User Management
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-chart-bar me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-cog me-1"></i> Settings</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="stats-card">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <h3>Total Users</h3>
+                            <h2>--</h2>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <h3>Active Users</h3>
+                            <h2>--</h2>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <h3>New Today</h3>
+                            <h2>--</h2>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6 offset-md-3">
+                <input type="search" class="search-bar" placeholder="Search users...">
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card p-4" onclick="window.location.href='/cadastrar'">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h5>Create User</h5>
+                    <p class="text-muted">Add new users to the system</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card p-4" onclick="window.location.href='/editar'">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-edit"></i>
+                    </div>
+                    <h5>Edit User</h5>
+                    <p class="text-muted">Modify existing user details</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card p-4" onclick="window.location.href='/listar'">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h5>List Users</h5>
+                    <p class="text-muted">View all system users</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card p-4" onclick="window.location.href='/remover'">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-minus"></i>
+                    </div>
+                    <h5>Delete User</h5>
+                    <p class="text-muted">Remove users from system</p>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
