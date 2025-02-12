@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +28,7 @@
         .form-container {
             background: var(--card-bg);
             border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 2rem;
             max-width: 500px;
             margin: 0 auto;
@@ -62,7 +63,7 @@
         .form-control {
             border-radius: 0.5rem;
             padding: 0.75rem 1rem;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             margin-bottom: 1rem;
             transition: all 0.3s ease;
         }
@@ -115,6 +116,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="form-container">
@@ -132,27 +134,33 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="text" class="form-control" name="login" th:value="*{login}" id="login" placeholder="Enter login">
+                    <input type="text" class="form-control" name="login" th:value="*{login}" id="login"
+                        placeholder="Enter login">
                 </div>
 
                 <div class="input-group">
-                    <input type="text" class="form-control" name="nome" th:value="*{nome}" id="nome" placeholder="Enter full name">
+                    <input type="text" class="form-control" name="nome" th:value="*{nome}" id="nome"
+                        placeholder="Enter full name">
                 </div>
 
                 <div class="input-group">
-                    <input type="password" class="form-control" name="senha" th:value="*{senha}" id="senha" placeholder="Enter password">
+                    <input type="password" class="form-control" name="senha" th:value="*{senha}" id="senha"
+                        placeholder="Enter password">
                 </div>
 
                 <div class="input-group">
-                    <input type="password" class="form-control" name="senhaconfirma" th:value="*{senhaconfirma}" id="senhaconfirma" placeholder="Confirm password">
+                    <input type="password" class="form-control" name="senhaconfirma" th:value="*{senhaconfirma}"
+                        id="senhaconfirma" placeholder="Confirm password">
                 </div>
 
                 <div class="input-group">
-                    <input type="email" class="form-control" name="email" th:value="*{email}" id="email" placeholder="Enter email">
+                    <input type="email" class="form-control" name="email" th:value="*{email}" id="email"
+                        placeholder="Enter email">
                 </div>
 
                 <div class="input-group">
-                    <input type="email" class="form-control" name="emailconfirma" th:value="*{emailconfirma}" id="emailconfirma" placeholder="Confirm email">
+                    <input type="email" class="form-control" name="emailconfirma" th:value="*{emailconfirma}"
+                        id="emailconfirma" placeholder="Confirm email">
                 </div>
 
                 <button type="submit" class="btn-submit">
@@ -162,4 +170,5 @@
         </div>
     </div>
 </body>
+
 </html>
