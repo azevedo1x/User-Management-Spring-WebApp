@@ -1,6 +1,6 @@
 package programacao.web.exception;
 
-public class UsuarioException extends Exception {
+public class UsuarioException extends RuntimeException {
     public UsuarioException() {
         super();
     }
