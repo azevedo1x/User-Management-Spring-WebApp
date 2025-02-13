@@ -87,10 +87,10 @@ public class UsuarioService {
         Map<String, String> inputs = Map.of(
             "Login", usuario.getLogin(),
             "Password", usuario.getSenha(),
-            "PasswordConfirm", usuario.getSenhaconfirma(),
+            "Password Confirmation", usuario.getSenhaconfirma(),
             "Name", usuario.getNome(),
             "Email", usuario.getEmail(),
-            "EmailConfirm", usuario.getEmailconfirma()
+            "Email Confirmation", usuario.getEmailconfirma()
         );
     
         inputs.forEach((key, value) -> {
@@ -107,7 +107,7 @@ public class UsuarioService {
         if (senha.length() < 4 || senha.length() > 8)
             errors.append("Your password should have between 4 and 8 characters. ");
     
-        if (senha.equals(usuario.getLogin()))
+        if ((senha != null && usuario.getLogin() != null) && senha.equals(usuario.getLogin()))
             errors.append("The password can't be the same as the login. ");
     
         if (!senha.equals(usuario.getSenhaconfirma()))
