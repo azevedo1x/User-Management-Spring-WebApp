@@ -14,73 +14,86 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService)
+    {
         this.usuarioService = usuarioService;
     }
 
     @GetMapping("/cadastrar")
-    public String showRegistrationForm(Model model) {
+    public String showRegistrationForm(Model model)
+    {
         model.addAttribute("usuario", new UsuarioDTO());
         return "formUsuario";
     }
 
     @PostMapping("/cadastrar")
-    public String registerUser(@ModelAttribute UsuarioDTO usuarioDTO,
-            RedirectAttributes redirectAttributes,
-            Model model) {
+    public String registerUser(@ModelAttribute UsuarioDTO usuarioDTO, RedirectAttributes redirectAttributes,
+        Model model){
         try {
             usuarioService.registerUser(usuarioDTO);
-            redirectAttributes.addFlashAttribute("success", "User registered successfully");
+            redirectAttributes.addFlashAttribute("success", "User registered " +
+            "successfully");
+
             return "redirect:/cadastrar";
+
         } catch (UsuarioException e) {
             e.printStackTrace();
+            model.addAttribute("usuario", usuarioDTO);
             model.addAttribute("erro", e.getMessage());
+
             return "formUsuario";
         }
     }
 
     @GetMapping("/editar")
-    public String showEditForm(Model model) {
+    public String showEditForm(Model model)
+    {
         model.addAttribute("usuario", new UsuarioDTO());
         return "formUsuario";
     }
 
     @PostMapping("/editar")
-    public String editUser(@ModelAttribute UsuarioDTO usuarioDTO,
-            RedirectAttributes redirectAttributes,
-            Model model) {
+    public String editUser(@ModelAttribute UsuarioDTO usuarioDTO, RedirectAttributes redirectAttributes,
+        Model model) {
         try {
             usuarioService.updateUser(usuarioDTO);
-            redirectAttributes.addFlashAttribute("success", "User updated successfully");
+            redirectAttributes.addFlashAttribute("success", "User updated "
+            + "successfully");
+
             return "redirect:/editar";
-        } catch (UsuarioException e) {
+
+        } catch (UsuarioException e)
+        {
             model.addAttribute("erro", e.getMessage());
             return "formUsuario";
         }
     }
 
     @GetMapping("/remover")
-    public String showRemovalForm(Model model) {
+    public String showRemovalForm(Model model)
+    {
         model.addAttribute("usuario", new UsuarioDTO());
         return "formRemocao";
     }
 
     @PostMapping("/remover")
-    public String removeUser(@ModelAttribute UsuarioDTO usuarioDTO,
-            RedirectAttributes redirectAttributes,
+    public String removeUser(@ModelAttribute UsuarioDTO usuarioDTO, RedirectAttributes redirectAttributes,
             Model model) {
         try {
             usuarioService.deleteUser(usuarioDTO.getLogin());
             redirectAttributes.addFlashAttribute("success", "User removed successfully");
+            
             return "redirect:/remover";
-        } catch (UsuarioException e) {
+        } catch (UsuarioException e)
+        {
             model.addAttribute("erro", e.getMessage());
             return "formRemocao";
         }
     }
 
     @GetMapping("/listar")
-    public String listUsers(Model model) {
+    public String listUsers(Model model)
+    {
         model.addAttribute("usuarios", usuarioService.findAllUsers());
         return "listarUsuario";
     }
