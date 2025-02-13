@@ -124,15 +124,14 @@
                 <a href="/" class="home-link">
                     <i class="fas fa-home fa-lg"></i>
                 </a>
-                <h2 class="form-title">Create New User</h2>
+                <h2 class="form-title">Create or Update User</h2>
             </div>
 
+            <div class="error-message" th:if="${erro}">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span th:text="${erro}"></span>
+            </div>
             <form method="post" th:object="${usuario}">
-                <div class="error-message" th:if="${erro}">
-                    <i class="fas fa-exclamation-circle me-2"></i>
-                    <span th:text="${erro}"></span>
-                </div>
-
                 <div class="input-group">
                     <input type="text" class="form-control" name="login" th:value="*{login}" id="login"
                         placeholder="Enter login">

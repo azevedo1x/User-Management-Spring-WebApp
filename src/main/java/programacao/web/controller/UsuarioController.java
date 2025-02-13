@@ -33,6 +33,7 @@ public class UsuarioController {
             redirectAttributes.addFlashAttribute("success", "User registered successfully");
             return "redirect:/cadastrar";
         } catch (UsuarioException e) {
+            e.printStackTrace();
             model.addAttribute("erro", e.getMessage());
             return "formUsuario";
         }
