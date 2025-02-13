@@ -89,7 +89,9 @@ public class UserController {
 
         } catch (UserException e)
         {
+            model.addAttribute("user", new UserDTO());
             model.addAttribute("error", e.getMessage());
+            
             return "deleteView";
         }
     }
