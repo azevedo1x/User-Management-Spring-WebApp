@@ -14,8 +14,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "usuarios")
-public class Usuario implements Serializable {
+@Table(name = "users")
+public class User implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -27,7 +27,7 @@ public class Usuario implements Serializable {
 
     @NotBlank(message = "Name is required")
     @Column(nullable = false)
-    private String nome;
+    private String name;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
@@ -37,15 +37,15 @@ public class Usuario implements Serializable {
     @NotBlank(message = "Password is required")
     @Size(min = 4, max = 8, message = "Password must be between 4 and 8 characters")
     @Column(nullable = false)
-    private String senha;
+    private String password;
 
     @Transient
-    private String senhaconfirma;
+    private String passwordConfirmation;
 
     @Transient
-    private String emailconfirma;
+    private String emailConfirmation;
 
-    public Usuario() {
+    public User() {
     }
 
     public String getLogin() {
@@ -56,12 +56,12 @@ public class Usuario implements Serializable {
         this.login = login != null ? login.trim() : null;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome != null ? nome.trim() : null;
+    public void setName(String name) {
+        this.name = name != null ? name.trim() : null;
     }
 
     public String getEmail() {
@@ -72,36 +72,38 @@ public class Usuario implements Serializable {
         this.email = email != null ? email.trim().toLowerCase() : null;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getSenhaconfirma() {
-        return senhaconfirma;
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
     }
 
-    public void setSenhaconfirma(String senhaconfirma) {
-        this.senhaconfirma = senhaconfirma;
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
     }
 
-    public String getEmailconfirma() {
-        return emailconfirma;
+    public String getEmailConfirmation() {
+        return emailConfirmation;
     }
 
-    public void setEmailconfirma(String emailconfirma) {
-        this.emailconfirma = emailconfirma != null ? emailconfirma.trim().toLowerCase() : null;
+    public void setEmailConfirmation(String emailConfirmation) {
+        this.emailConfirmation = emailConfirmation != null
+                                ? emailConfirmation.trim().toLowerCase()
+                                : null;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Usuario usuario = (Usuario) o;
-        return Objects.equals(login, usuario.login);
+        User user = (User) o;
+        return Objects.equals(login, user.login);
     }
 
     @Override
@@ -111,9 +113,9 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario{" +
+        return "User{" +
                 "login='" + login + '\'' +
-                ", nome='" + nome + '\'' +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
