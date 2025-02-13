@@ -1,103 +1,153 @@
-# **User Management Web Application (Spring Boot)**
+# User Management System
 
-This project is a **Spring Boot** web application designed to manage user registrations. It demonstrates CRUD operations (Create, Read, Update, Delete) using **Spring MVC**, **Spring Data JPA**, and **Thymeleaf** for frontend rendering.
+A robust Spring Boot web application for managing users with CRUD operations, form validation, and a clean, responsive UI.
 
----
+## Features
 
-## **Features**
-- **User Management:**
-  - Register new users.
-  - Edit existing user details.
-  - List all registered users.
-  - Remove users by login.
-  
-- **Form Validation** with custom exceptions.
-- **Database Integration** using **POSTGRESQL**.
-- **Thymeleaf Templates** for dynamic front-end rendering.
-- **Bootstrap** for responsive design.
+- Create new users with validation
+- Update existing user information
+- Delete users from the system
+- List all registered users
+- Form validation with error handling
+- Responsive design with modern UI
+- User-friendly flash messages
 
----
+## Technologies Used
 
-## **Technologies Used**
-- **Java 17+**
-- **Spring Boot 3+**
-- **Spring Data JPA**
-- **POSTGRESQL**
-- **Thymeleaf**
-- **Bootstrap 5**
+- **Backend**
+  - Spring Boot
+  - Spring MVC
+  - Spring Data JPA
+  - PostgreSQL
+  - Hibernate Validator
+  - Thymeleaf
 
----
+- **Frontend**
+  - HTML5
+  - CSS3
+  - Bootstrap 5.3.1
+  - Font Awesome 6.4.0
+  - Custom responsive styling
 
-## **Setup Instructions**
+## Prerequisites
 
-### 1. **Clone the Repository**
-```bash
-git clone https://github.com/azevedo1x/user-management-spring-webapp.git
-cd user-management-spring-webapp
+- JDK 17 or later
+- Maven
+- PostgreSQL
+- Git
+
+## Database Configuration
+
+The application is configured to use PostgreSQL with the following default settings:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost/userManagement
+spring.datasource.username=postgres
+spring.datasource.password=postgres
 ```
 
-### 2. **Create PostegreSQL database**
-CREATE DATABASE gerenciamentoDeUsuarios;
+You can modify these settings in `application.properties` to match your database configuration.
 
-### 3. **Configure Database**
-Check `Banco.java` for the current database configuration:
-```java
-dataSource.setUrl("jdbc:postgresql://localhost/gerenciamentoDeUsuarios");
-dataSource.setUsername("your_username");
-dataSource.setPassword("your_password");
+## Installation & Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/azevedo1x/User-Management-Spring-WebApp
+   ```
+
+2. Create PostgreSQL database:
+   ```sql
+   CREATE DATABASE userManagement;
+   ```
+
+3. Build the project:
+   ```bash
+   mvn clean install
+   ```
+
+4. Run the application:
+   ```bash
+   mvn spring-boot:run
+   ```
+
+5. Access the application at `http://localhost:8080`
+
+## Project Structure
+
 ```
-Ensure the database server is running on `localhost`.
-
-### 4. **Run the Application**
-```bash
-./mvnw spring-boot:run
-```
-Access the app at [http://localhost:8080](http://localhost:8080).
-
----
-
-## **EndPoints**
-
-- **Home:** `/`
-- **Register User:** `/cadastrarUsuario`
-- **Edit User:** `/editarUsuario`
-- **Remove User:** `/removerUsuario`
-- **List Users:** `/listarUsuario`
-
----
-
-## **Project Structure**
-
-```bash
-├── src
-│   ├── main
-│   │   ├── java
-│   │   │   └── programacao.web
-│   │   │       ├── controller
-│   │   │       ├── data
-│   │   │       ├── model
-│   │   │       ├── repository
-│   │   │       └── WebApplication.java
-│   │   └── resources
-│   │       └── templates
-│   └── test
-└── pom.xml
+src/
+├── main/
+│   ├── java/programacao/web/
+│   │   ├── controller/
+│   │   │   └── UserController.java
+│   │   ├── dto/
+│   │   │   └── UserDTO.java
+│   │   ├── exception/
+│   │   │   └── UserException.java
+│   │   ├── model/
+│   │   │   └── User.java
+│   │   ├── repository/
+│   │   │   └── UserRepository.java
+│   │   └── service/
+│   │       └── UserService.java
+│   │
+│   └── resources/
+│       ├── static/
+│       │   └── css/
+│       │       └── styles.css
+│       ├── templates/
+│       │   ├── index.html        # Main landing page
+│       │   ├── recordView.html   # Create/Update user form
+│       │   ├── deleteView.html   # Delete user form
+│       │   └── readView.html     # List users view
+│       └── application.properties
 ```
 
----
+## User Validation Rules
 
-## **Sample Thymeleaf Pages**
-- **`formUsuario.html`:** Form for creating/editing users.
-- **`listarUsuario.html`:** Display registered users.
-- **`formRemocao.html`:** Form for removing users.
-- **`index.html`:** Homepage with navigation links.
+- Login is required and must be unique
+- Name is required
+- Email is required and must be valid
+- Password must be between 4 and 8 characters
+- Password cannot be the same as login
+- Email and password confirmation must match
 
----
+## Features in Detail
 
-## **Contributing**
-Feel free to fork this project and submit pull requests. For major changes, open an issue first to discuss what you would like to improve.
+### User Creation
+- Form-based user registration
+- Real-time validation
+- Duplicate login prevention
+- Email confirmation check
+- Password validation
 
---- 
+### User Update
+- Existing user data modification
+- Validation of updated information
+- Error handling for non-existent users
 
-## **Contact**
-For questions or feedback, reach out at: **gabriel.azeve04@gmail.com**.
+### User Deletion
+- Login-based user removal
+- Confirmation messages
+- Error handling for non-existent users
+
+### User Listing
+- Display of all registered users
+- Clean and organized user interface
+- Responsive design for all screen sizes
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/yourFeature`)
+3. Commit your changes (`git commit -m 'Add some yourFeature'`)
+4. Push to the branch (`git push origin feature/yourFeature`)
+5. Open a Pull Request
+
+## Examples for you to contribute
+
+- Password encryption
+- User session management
+- CSRF protection
+- Rate limiting
+- Input sanitization
