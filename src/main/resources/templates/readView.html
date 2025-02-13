@@ -133,17 +133,17 @@
                 <h2 class="list-title">User List</h2>
             </div>
 
-            <div class="error-message" th:if="${erro}">
+            <div class="error-message" th:if="${error}">
                 <i class="fas fa-exclamation-circle me-2"></i>
-                <span th:text="${erro}"></span>
+                <span th:text="${error}"></span>
             </div>
 
             <div class="user-list">
-                <div class="user-item" th:each="usuario : ${usuarios}">
+                <div class="user-item" th:each="user : ${users}">
                     <div class="user-icon">
                         <i class="fas fa-user"></i>
                     </div>
-                    <span class="user-login" th:text="${usuario.login}"></span>
+                    <span class="user-login" th:text="${user.login}"></span>
                 </div>
             </div>
         </div>

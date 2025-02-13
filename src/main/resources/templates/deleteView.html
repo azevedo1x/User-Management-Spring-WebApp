@@ -127,10 +127,10 @@
                 <h2 class="form-title">Delete User</h2>
             </div>
 
-            <form method="post" th:object="${usuario}">
-                <div class="error-message" th:if="${erro}">
+            <form method="post" th:object="${user}">
+                <div class="error-message" th:if="${error}">
                     <i class="fas fa-exclamation-circle me-2"></i>
-                    <span th:text="${erro}"></span>
+                    <span th:text="${error}"></span>
                 </div>
 
                 <div class="input-group">

@@ -127,10 +127,10 @@
                 <h2 class="form-title">Create/Update User</h2>
             </div>
 
-            <form method="post" th:object="${usuario}">
-                <div class="error-message" th:if="${erro}">
+            <form method="post" th:object="${user}">
+                <div class="error-message" th:if="${error}">
                     <i class="fas fa-exclamation-circle me-2"></i>
-                    <span th:text="${erro}"></span>
+                    <span th:text="${error}"></span>
                 </div>
                 <div class="input-group">
                     <input type="text" class="form-control" name="login" th:value="*{login}" id="login"
@@ -138,18 +138,18 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="text" class="form-control" name="nome" th:value="*{nome}" id="nome"
+                    <input type="text" class="form-control" name="name" th:value="*{name}" id="name"
                         placeholder="Enter full name">
                 </div>
 
                 <div class="input-group">
-                    <input type="password" class="form-control" name="senha" th:value="*{senha}" id="senha"
+                    <input type="password" class="form-control" name="password" th:value="*{password}" id="password"
                         placeholder="Enter password">
                 </div>
 
                 <div class="input-group">
-                    <input type="password" class="form-control" name="senhaconfirma" th:value="*{senhaconfirma}"
-                        id="senhaconfirma" placeholder="Confirm password">
+                    <input type="password" class="form-control" name="passwordConfirmation" th:value="*{passwordConfirmation}"
+                        id="passwordConfirmation" placeholder="Confirm password">
                 </div>
 
                 <div class="input-group">
@@ -158,8 +158,8 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="email" class="form-control" name="emailconfirma" th:value="*{emailconfirma}"
-                        id="emailconfirma" placeholder="Confirm email">
+                    <input type="email" class="form-control" name="emailConfirmation" th:value="*{emailConfirmation}"
+                        id="emailConfirmation" placeholder="Confirm email">
                 </div>
 
                 <button type="submit" class="btn-submit">

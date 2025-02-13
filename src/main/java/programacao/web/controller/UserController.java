@@ -85,7 +85,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("success", "User removed "
             + "successfully");
             
-            return "redirect:/remover";
+            return "redirect:/delete";
 
         } catch (UserException e)
         {
