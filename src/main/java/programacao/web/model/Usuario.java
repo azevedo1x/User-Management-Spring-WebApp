@@ -9,13 +9,15 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements Serializable {
-    
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
