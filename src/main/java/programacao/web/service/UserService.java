@@ -62,7 +62,7 @@ public class UserService {
 
         validateCommonFields(user, errors);
 
-        if (errors.length() > 0)
+        if (!errors.isEmpty())
             throw new UserException(errors.toString().trim());
     }
 
@@ -71,7 +71,7 @@ public class UserService {
         StringBuilder errors = new StringBuilder();
         validateCommonFields(user, errors);
 
-        if (errors.length() > 0)
+        if (!errors.isEmpty())
             throw new UserException(errors.toString().trim());
     }
 
@@ -107,7 +107,7 @@ public class UserService {
         if (password.length() < 4 || password.length() > 8)
             errors.append("Your password should have between 4 and 8 characters. ");
     
-        if ((password != null && user.getLogin() != null) && password.equals(user.getLogin()))
+        if (user.getLogin() != null && password.equals(user.getLogin()))
             errors.append("The password can't be the same as the login. ");
     
         if (!password.equals(user.getPasswordConfirmation()))
