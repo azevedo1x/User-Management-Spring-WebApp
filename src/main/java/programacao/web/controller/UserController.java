@@ -14,9 +14,9 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService usuarioService)
+    public UserController(UserService userService)
     {
-        this.userService = usuarioService;
+        this.userService = userService;
     }
 
     @GetMapping("/register")
