@@ -1,6 +1,6 @@
 # User Management System
 
-A robust Spring Boot web application for managing users with CRUD operations, form validation, and a clean, responsive UI.
+A simple Spring Boot web application for managing users with CRUD operations, form validation, and a clean, responsive UI.
 
 ## Features
 
@@ -23,8 +23,6 @@ A robust Spring Boot web application for managing users with CRUD operations, fo
   - Thymeleaf
 
 - **Frontend**
-  - HTML5
-  - CSS3
   - Bootstrap 5.3.1
   - Font Awesome 6.4.0
   - Custom responsive styling
