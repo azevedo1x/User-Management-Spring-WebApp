@@ -1,142 +1,110 @@
 package programacao.web.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import programacao.web.model.User;
 import programacao.web.repository.UserRepository;
 import programacao.web.dto.UserDTO;
-import programacao.web.exception.UserException;
+import programacao.web.exception.UserNotFoundException;
+import programacao.web.exception.UserAlreadyExistsException;
+import programacao.web.exception.ValidationException;
+
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public UserService(UserRepository userRepository) {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public void registerUser(UserDTO userDTO) throws UserException
-    {
-        validateNewUser(userDTO);
+    public void registerUser(UserDTO userDTO) {
+        logger.info("Attempting to register user: {}", userDTO.getLogin());
+
+        if (userRepository.existsByLogin(userDTO.getLogin())) throw new UserAlreadyExistsException(userDTO.getLogin());
+
+        validateConfirmationFields(userDTO);
 
         User user = convertToEntity(userDTO);
         userRepository.save(user);
+
+        logger.info("User registered successfully: {}", userDTO.getLogin());
     }
 
-    public void updateUser(UserDTO userDTO) throws UserException
-    {
-        User existingUser = userRepository.findByLogin(userDTO.getLogin());
+    public void updateUser(UserDTO userDTO) {
+        logger.info("Attempting to update user: {}", userDTO.getLogin());
 
-        if (existingUser == null)
-            throw new UserException("User not found");
+        User existingUser = userRepository.findByLogin(userDTO.getLogin()).orElseThrow(() -> new UserNotFoundException(userDTO.getLogin()));
 
-        validateExistingUser(userDTO);
+        validateConfirmationFields(userDTO);
+
         updateUserData(existingUser, userDTO);
-
         userRepository.save(existingUser);
+
+        logger.info("User updated successfully: {}", userDTO.getLogin());
     }
 
-    public void deleteUser(String login) throws UserException
-    {
-        User existingUser = userRepository.findByLogin(login);
+    public void deleteUser(String login) {
+        logger.info("Attempting to delete user: {}", login);
 
-        if (existingUser == null)
-            throw new UserException("User not found");
+        User existingUser = userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException(login));
 
         userRepository.delete(existingUser);
+
+        logger.info("User deleted successfully: {}", login);
     }
 
-    public List<User> findAllUsers()
-    {
+    public List<User> findAllUsers() {
         return (List<User>) userRepository.findAll();
     }
 
-    private void validateNewUser(UserDTO user) throws UserException
-    {
+    private void validateConfirmationFields(UserDTO userDTO) {
         StringBuilder errors = new StringBuilder();
 
-        if (userRepository.findByLogin(user.getLogin()) != null)
-            errors.append("Invalid user. There is already a user with this login registered. ");
+        if (!userDTO.getPassword().equals(userDTO.getPasswordConfirmation())) errors.append("Passwords don't match. ");
 
-        validateCommonFields(user, errors);
 
-        if (!errors.isEmpty())
-            throw new UserException(errors.toString().trim());
-    }
-
-    private void validateExistingUser(UserDTO user) throws UserException
-    {
-        StringBuilder errors = new StringBuilder();
-        validateCommonFields(user, errors);
-
-        if (!errors.isEmpty())
-            throw new UserException(errors.toString().trim());
-    }
-
-    private void validateCommonFields(UserDTO user, StringBuilder errors)
-    {
-        validateEmptyFields(user, errors);
-        validatePassword(user, errors);
-        validateEmail(user, errors);
-    }
-    
-    private void validateEmptyFields(UserDTO user, StringBuilder errors)
-    {
-        Map<String, String> inputs = Map.of(
-            "Login", user.getLogin(),
-            "Password", user.getPassword(),
-            "Password Confirmation", user.getPasswordConfirmation(),
-            "Name", user.getName(),
-            "Email", user.getEmail(),
-            "Email Confirmation", user.getEmailConfirmation()
-        );
-    
-        inputs.forEach((key, value) -> {
-            if (value == null || value.isBlank()) {
-                errors.append(key).append(" is empty. ");
-            }
-        });
-    }
-    
-    private void validatePassword(UserDTO user, StringBuilder errors)
-    {
-        String password = user.getPassword();
-    
-        if (password.length() < 4 || password.length() > 8)
-            errors.append("Your password should have between 4 and 8 characters. ");
-    
-        if (user.getLogin() != null && password.equals(user.getLogin()))
+        if (userDTO.getLogin() != null && userDTO.getPassword().equals(userDTO.getLogin()))
             errors.append("The password can't be the same as the login. ");
-    
-        if (!password.equals(user.getPasswordConfirmation()))
-            errors.append("Passwords don't match. ");
-    }
-    
-    private void validateEmail(UserDTO user, StringBuilder errors)
-    {
-        if (!user.getEmail().equals(user.getEmailConfirmation()))
-            errors.append("E-mails don't match. ");
-    }
-    
 
-    private User convertToEntity(UserDTO dto)
-    {
+
+        if (!userDTO.getEmail().equals(userDTO.getEmailConfirmation())) errors.append("E-mails don't match. ");
+
+
+        if (!errors.isEmpty()) throw new ValidationException(errors.toString().trim());
+
+    }
+
+    private User convertToEntity(UserDTO dto) {
         User user = new User();
-        
-        user.setLogin(dto.getLogin());
-        user.setName(dto.getName());
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
+
+        user.setLogin(normalizeString(dto.getLogin()));
+        user.setName(normalizeString(dto.getName()));
+        user.setEmail(normalizeEmail(dto.getEmail()));
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return user;
     }
 
-    private void updateUserData(User existingUser, UserDTO dto)
-    {
-        existingUser.setName(dto.getName());
-        existingUser.setEmail(dto.getEmail());
-        existingUser.setPassword(dto.getPassword());
+    private void updateUserData(User existingUser, UserDTO dto) {
+        existingUser.setName(normalizeString(dto.getName()));
+        existingUser.setEmail(normalizeEmail(dto.getEmail()));
+        existingUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+    }
+
+    private String normalizeString(String value) {
+        return value != null ? value.trim() : null;
+    }
+
+    private String normalizeEmail(String email) {
+        return email != null ? email.trim().toLowerCase() : null;
     }
 }
