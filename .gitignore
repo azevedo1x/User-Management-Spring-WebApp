@@ -31,3 +31,17 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Application Properties ###
+application-local.properties
+application-dev.properties
+*.env
+.env
+
+### Database ###
+*.db
+*.sqlite
+
+### Logs ###
+logs/
+*.log
