@@ -1,56 +1,101 @@
 # User Management System
 
-A simple Spring Boot web application for managing users with CRUD operations, form validation, and a clean, responsive UI.
+A secure Spring Boot web application for managing users with CRUD operations, BCrypt password encryption, form validation, and a clean, responsive UI.
 
 ## Features
 
-- Create new users with validation
-- Update existing user information
-- Delete users from the system
-- List all registered users
-- Form validation with error handling
-- Responsive design with modern UI
-- User-friendly flash messages
+- ✅ Create new users with strong password validation
+- ✅ Update existing user information
+- ✅ Delete users from the system
+- ✅ List all registered users
+- ✅ BCrypt password encryption
+- ✅ Comprehensive form validation with error handling
+- ✅ Responsive design with Bootstrap
+- ✅ User-friendly flash messages
+- ✅ Global exception handling
+- ✅ Comprehensive test coverage
 
 ## Technologies Used
 
 - **Backend**
-  - Spring Boot
+  - Spring Boot 3.4.2
   - Spring MVC
+  - Spring Security (BCrypt password encoding)
   - Spring Data JPA
   - PostgreSQL
-  - Hibernate Validator
+  - Bean Validation (Jakarta Validation)
   - Thymeleaf
+  - SLF4J/Logback
 
 - **Frontend**
   - Bootstrap 5.3.1
   - Font Awesome 6.4.0
-  - Custom responsive styling
+  - Thymeleaf templates
+
+- **Testing**
+  - JUnit 5
+  - Mockito
+  - Spring Boot Test
+  - H2 in-memory database
 
 ## Prerequisites
 
-- JDK 17 or later
-- Maven
-- PostgreSQL
+- JDK 20 or later
+- Maven 3.8+
+- PostgreSQL 15+
 - Git
 
 ## Database Configuration
 
-The application is configured to use PostgreSQL with the following default settings:
+### Step 1: Create the Database
 
-```properties
-spring.datasource.url=jdbc:postgresql://localhost/userManagement
-spring.datasource.username=postgres
-spring.datasource.password=postgres
+```bash
+# Using psql or pgAdmin
+createdb userManagement
+
+# Or using PostgreSQL command line
+psql -U postgres
+CREATE DATABASE userManagement;
 ```
 
-You can modify these settings in `application.properties` to match your database configuration.
+### Step 2: Set Environment Variables
+
+The application uses environment variables for database configuration to avoid hardcoding credentials.
+
+**On Windows (PowerShell):**
+```powershell
+$env:DB_URL="jdbc:postgresql://localhost:5432/userManagement"
+$env:DB_USERNAME="postgres"
+$env:DB_PASSWORD="your_secure_password"
+```
+
+**On Linux/Mac:**
+```bash
+export DB_URL="jdbc:postgresql://localhost:5432/userManagement"
+export DB_USERNAME="postgres"
+export DB_PASSWORD="your_secure_password"
+```
+
+**Alternative: Create application-dev.properties** (gitignored)
+
+Create `src/main/resources/application-dev.properties`:
+```properties
+spring.profiles.active=dev
+DB_URL=jdbc:postgresql://localhost:5432/userManagement
+DB_USERNAME=postgres
+DB_PASSWORD=your_secure_password
+JPA_SHOW_SQL=true
+JPA_DDL_AUTO=update
+```
+
+Then run with: `./mvnw spring-boot:run -Dspring-boot.run.profiles=dev`
 
 ## Installation & Setup
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/azevedo1x/User-Management-Spring-WebApp
+   cd User-Management-Spring-WebApp
    ```
 
 2. Create PostgreSQL database:
@@ -58,17 +103,32 @@ You can modify these settings in `application.properties` to match your database
    CREATE DATABASE userManagement;
    ```
 
-3. Build the project:
+3. Set environment variables (see Database Configuration section above)
+
+4. Build the project:
    ```bash
-   mvn clean install
+   ./mvnw clean install
    ```
 
-4. Run the application:
+5. Run the application:
    ```bash
-   mvn spring-boot:run
+   ./mvnw spring-boot:run
    ```
 
-5. Access the application at `http://localhost:8080`
+6. Access the application at `http://localhost:8080`
+
+## Running Tests
+
+```bash
+# Run all tests
+./mvnw test
+
+# Run with coverage report
+./mvnw test jacoco:report
+
+# Run specific test class
+./mvnw test -Dtest=UserServiceTest
+```
 
 ## Project Structure
 
@@ -76,76 +136,76 @@ You can modify these settings in `application.properties` to match your database
 src/
 ├── main/
 │   ├── java/programacao/web/
+│   │   ├── config/
+│   │   │   └── SecurityConfig.java        # Security & password encoding
 │   │   ├── controller/
-│   │   │   └── UserController.java
+│   │   │   └── UserController.java        # MVC controllers
 │   │   ├── dto/
-│   │   │   └── UserDTO.java
+│   │   │   └── UserDTO.java               # Data transfer objects
 │   │   ├── exception/
-│   │   │   └── UserException.java
+│   │   │   ├── ApplicationException.java
+│   │   │   ├── GlobalExceptionHandler.java
+│   │   │   ├── UserAlreadyExistsException.java
+│   │   │   ├── UserNotFoundException.java
+│   │   │   └── ValidationException.java
 │   │   ├── model/
-│   │   │   └── User.java
+│   │   │   └── User.java                  # JPA entity
 │   │   ├── repository/
-│   │   │   └── UserRepository.java
+│   │   │   └── UserRepository.java        # Data access layer
 │   │   └── service/
-│   │       └── UserService.java
+│   │       └── UserService.java           # Business logic
 │   │
 │   └── resources/
-│       ├── static/
-│       │   └── css/
-│       │       └── styles.css
 │       ├── templates/
-│       │   ├── index.html        # Main landing page
-│       │   ├── recordView.html   # Create/Update user form
-│       │   ├── deleteView.html   # Delete user form
-│       │   └── readView.html     # List users view
+│       │   ├── index.html                 # Main landing page
+│       │   ├── recordView.html            # Create/Update user form
+│       │   ├── deleteView.html            # Delete user form
+│       │   └── readView.html              # List users view
 │       └── application.properties
+│
+└── test/
+    ├── java/programacao/web/
+    │   ├── controller/
+    │   │   └── UserControllerIntegrationTest.java
+    │   ├── repository/
+    │   │   └── UserRepositoryTest.java
+    │   └── service/
+    │       └── UserServiceTest.java
+    └── resources/
+        └── application-test.properties
+
 ```
 
 ## User Validation Rules
 
-- Login is required and must be unique
-- Name is required
-- Email is required and must be valid
-- Password must be between 4 and 8 characters
-- Password cannot be the same as login
-- Email and password confirmation must match
+- **Login**: Required, 3-50 characters, must be unique
+- **Name**: Required, 2-100 characters
+- **Email**: Required, must be valid email format, must match confirmation
+- **Password**: Required, minimum 8 characters, must contain:
+  - At least one uppercase letter
+  - At least one lowercase letter
+  - At least one digit
+  - At least one special character (@#$%^&+=!*)
+  - Password cannot be the same as login
+  - Must match password confirmation
 
-## Features in Detail
+## Security Features
 
-### User Creation
-- Form-based user registration
-- Real-time validation
-- Duplicate login prevention
-- Email confirmation check
-- Password validation
+- ✅ **BCrypt Password Hashing**: All passwords are encrypted using BCrypt with salt
+- ✅ **Environment Variables**: Database credentials stored in environment variables
+- ✅ **Input Validation**: Comprehensive server-side validation
+- ✅ **SQL Injection Protection**: JPA/Hibernate parameterized queries
+- ✅ **Exception Handling**: Global exception handler with logging
 
-### User Update
-- Existing user data modification
-- Validation of updated information
-- Error handling for non-existent users
+## API Endpoints
 
-### User Deletion
-- Login-based user removal
-- Confirmation messages
-- Error handling for non-existent users
-
-### User Listing
-- Display of all registered users
-- Clean and organized user interface
-- Responsive design for all screen sizes
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/yourFeature`)
-3. Commit your changes (`git commit -m 'Add some yourFeature'`)
-4. Push to the branch (`git push origin feature/yourFeature`)
-5. Open a Pull Request
-
-## Examples for you to contribute
-
-- Password encryption
-- User session management
-- CSRF protection
-- Rate limiting
-- Input sanitization
+| Method | Endpoint      | Description              |
+|--------|---------------|--------------------------|
+| GET    | /             | Home page                |
+| GET    | /register     | Show registration form   |
+| POST   | /register     | Create new user          |
+| GET    | /update       | Show update form         |
+| POST   | /update       | Update existing user     |
+| GET    | /delete       | Show delete form         |
+| POST   | /delete       | Delete user              |
+| GET    | /read         | List all users           |
