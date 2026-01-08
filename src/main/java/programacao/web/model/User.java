@@ -1,16 +1,10 @@
 package programacao.web.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
-import jakarta.persistence.Transient;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -21,31 +15,35 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @NotBlank(message = "Login is required")
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 50)
     private String login;
 
-    @NotBlank(message = "Name is required")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String name;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String email;
 
-    @NotBlank(message = "Password is required")
-    @Size(min = 4, max = 8, message = "Password must be between 4 and 8 characters")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String password;
 
-    @Transient
-    private String passwordConfirmation;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-    @Transient
-    private String emailConfirmation;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public User() {
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
     public String getLogin() {
@@ -53,7 +51,7 @@ public class User implements Serializable {
     }
 
     public void setLogin(String login) {
-        this.login = login != null ? login.trim() : null;
+        this.login = login;
     }
 
     public String getName() {
@@ -61,7 +59,7 @@ public class User implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name != null ? name.trim() : null;
+        this.name = name;
     }
 
     public String getEmail() {
@@ -69,7 +67,7 @@ public class User implements Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email != null ? email.trim().toLowerCase() : null;
+        this.email = email;
     }
 
     public String getPassword() {
@@ -80,22 +78,20 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getPasswordConfirmation() {
-        return passwordConfirmation;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setPasswordConfirmation(String passwordConfirmation) {
-        this.passwordConfirmation = passwordConfirmation;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getEmailConfirmation() {
-        return emailConfirmation;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setEmailConfirmation(String emailConfirmation) {
-        this.emailConfirmation = emailConfirmation != null
-                                ? emailConfirmation.trim().toLowerCase()
-                                : null;
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -117,6 +113,7 @@ public class User implements Serializable {
                 "login='" + login + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }
